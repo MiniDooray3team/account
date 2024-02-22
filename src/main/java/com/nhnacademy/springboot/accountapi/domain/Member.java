@@ -1,5 +1,10 @@
 package com.nhnacademy.springboot.accountapi.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,13 +13,17 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "member")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Member {
 
     @Id
     Long id;
 
     @Column(name = "member_id")
-    String memeberId;
+    String memberId;
 
     @Column(name = "password")
     String password;
@@ -31,8 +40,5 @@ public class Member {
 
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
-
-
-
 
 }
