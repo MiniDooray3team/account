@@ -1,8 +1,8 @@
 package com.nhnacademy.springboot.accountapi.controller;
 
 import com.nhnacademy.springboot.accountapi.domain.Member;
+import com.nhnacademy.springboot.accountapi.dto.request.LoginRequest;
 import com.nhnacademy.springboot.accountapi.service.MemberService;
-import com.nhnacademy.springboot.accountapi.service.impl.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -57,7 +56,7 @@ public class AccountRestController {
     public ResponseEntity<Void> updateMemberStatus(
             @PathVariable("id") Long memberId,
             @RequestParam("statusId") int statusId,
-            HttpServletRequest request) throws MemberNotFoundException {
+            HttpServletRequest request) {
         String memberIdFromHeader = request.getHeader("MEMBER-SERIAL-ID");
 
         if (memberIdFromHeader == null || !memberIdFromHeader.equals(memberId.toString())) {
@@ -73,25 +72,7 @@ public class AccountRestController {
     public ResponseEntity<Member> loginCheck(@RequestBody LoginRequest loginRequest) {
         String memberId = loginRequest.getMemberId();
         String password = loginRequest.getPassword();
-
-        Optional<Member> optionalMember = memberService.findMemberByMemberIdAndPassword(memberId, password);
-        if (optionalMember.isPresent()) {
-            Member member = optionalMember.get();
-            return new ResponseEntity<>(member, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-    }
-    static class LoginRequest {
-        private String memberId;
-        private String password;
-
-        public String getMemberId() {
-            return memberId;
-        }
-
-        public String getPassword() {
-            return password;
-        }
+        Member member = memberService.findMemberByMemberIdAndPassword(memberId, password);
+        return ResponseEntity.ok(member);
     }
 }

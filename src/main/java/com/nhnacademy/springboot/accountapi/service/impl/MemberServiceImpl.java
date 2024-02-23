@@ -2,14 +2,17 @@ package com.nhnacademy.springboot.accountapi.service.impl;
 
 import com.nhnacademy.springboot.accountapi.domain.Member;
 import com.nhnacademy.springboot.accountapi.domain.MemberStatus;
+import com.nhnacademy.springboot.accountapi.exception.MemberNotFoundException;
 import com.nhnacademy.springboot.accountapi.repository.MemberRepository;
 import com.nhnacademy.springboot.accountapi.service.MemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
@@ -55,13 +58,14 @@ public class MemberServiceImpl implements MemberService {
             member.setMemberStatus(memberStatus);
             memberRepository.save(member);
         } else {
-            throw new MemberNotFoundException("Id가 있는 회원을 찾을 수 없습니다. : " + memberId);
+            throw new MemberNotFoundException();
         }
     }
 
     @Override
-    public Optional<Member> findMemberByMemberIdAndPassword(String memberId, String password) {
-        return memberRepository.findByMemberIdAndPassword(memberId, password);
+    public Member findMemberByMemberIdAndPassword(String memberId, String password) {
+        log.debug("findMemberByMemberIdAndPassword: memberId={}, password={}", memberId, password);
+        return memberRepository.findByMemberIdAndPassword(memberId, password).orElseThrow(MemberNotFoundException::new);
     }
 }
 
