@@ -1,6 +1,7 @@
 package com.nhnacademy.springboot.accountapi.controller;
 
 import com.nhnacademy.springboot.accountapi.domain.Member;
+import com.nhnacademy.springboot.accountapi.request.LoginRequest;
 import com.nhnacademy.springboot.accountapi.service.MemberService;
 import com.nhnacademy.springboot.accountapi.service.impl.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -80,18 +81,6 @@ public class AccountRestController {
             return new ResponseEntity<>(member, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-    }
-    static class LoginRequest {
-        private String memberId;
-        private String password;
-
-        public String getMemberId() {
-            return memberId;
-        }
-
-        public String getPassword() {
-            return password;
         }
     }
 }

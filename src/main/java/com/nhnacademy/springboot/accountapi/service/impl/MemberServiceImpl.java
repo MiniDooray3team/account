@@ -4,6 +4,7 @@ import com.nhnacademy.springboot.accountapi.domain.Member;
 import com.nhnacademy.springboot.accountapi.domain.MemberStatus;
 import com.nhnacademy.springboot.accountapi.repository.MemberRepository;
 import com.nhnacademy.springboot.accountapi.service.MemberService;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
