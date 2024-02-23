@@ -17,18 +17,21 @@ import java.util.List;
 @RequestMapping("/account")
 @Slf4j
 public class AccountRestController {
+
+    private static final String MEMBER_SERIAL_ID = "MEMBER-SERIAL-ID";
     private final MemberService memberService;
+
 
     @GetMapping("/members")
     public ResponseEntity<List<Member>> getAllMembers(HttpServletRequest request) {
-        String memberId = request.getHeader("MEMBER-SERIAL-ID"); // 헤더 추출 "MEMBER-SERIAL-ID"
+        String memberId = request.getHeader(MEMBER_SERIAL_ID); // 헤더 추출 "MEMBER-SERIAL-ID"
         List<Member> members = memberService.getAllMembers();
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
     @GetMapping("/members/{id}")
     public ResponseEntity<Member> getMemberById(@PathVariable("id") Long id, HttpServletRequest request) {
-        String memberId = request.getHeader("MEMBER-SERIAL-ID");
+        String memberId = request.getHeader(MEMBER_SERIAL_ID);
         Member member = memberService.getMemberById(id);
         if (member != null) {
             return new ResponseEntity<>(member, HttpStatus.OK);
@@ -39,14 +42,14 @@ public class AccountRestController {
 
     @PostMapping("/members")
     public ResponseEntity<Member> createMember(@RequestBody Member member, HttpServletRequest request) {
-        String memberId = request.getHeader("MEMBER-SERIAL-ID");
+        String memberId = request.getHeader(MEMBER_SERIAL_ID);
         Member createdMember = memberService.createMember(member);
         return new ResponseEntity<>(createdMember, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/members/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable("id") Long id, HttpServletRequest request) {
-        String memberId = request.getHeader("MEMBER-SERIAL-ID");
+        String memberId = request.getHeader(MEMBER_SERIAL_ID);
         memberService.deleteMember(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -57,7 +60,7 @@ public class AccountRestController {
             @PathVariable("id") Long memberId,
             @RequestParam("statusId") int statusId,
             HttpServletRequest request) {
-        String memberIdFromHeader = request.getHeader("MEMBER-SERIAL-ID");
+        String memberIdFromHeader = request.getHeader(MEMBER_SERIAL_ID);
 
         if (memberIdFromHeader == null || !memberIdFromHeader.equals(memberId.toString())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // header 정보와 다르면 응답 없음 응답 반환 부분
