@@ -58,7 +58,7 @@ public class AccountRestController {
     public ResponseEntity<Void> updateMemberStatus(
             @PathVariable("id") Long memberId,
             @RequestParam("statusId") int statusId,
-            HttpServletRequest request) throws MemberNotFoundException {
+            HttpServletRequest request) {
         String memberIdFromHeader = request.getHeader("MEMBER-SERIAL-ID");
 
         if (memberIdFromHeader == null || !memberIdFromHeader.equals(memberId.toString())) {
@@ -74,13 +74,7 @@ public class AccountRestController {
     public ResponseEntity<Member> loginCheck(@RequestBody LoginRequest loginRequest) {
         String memberId = loginRequest.getMemberId();
         String password = loginRequest.getPassword();
-
-        Optional<Member> optionalMember = memberService.findMemberByMemberIdAndPassword(memberId, password);
-        if (optionalMember.isPresent()) {
-            Member member = optionalMember.get();
-            return new ResponseEntity<>(member, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+        Member member = memberService.findMemberByMemberIdAndPassword(memberId, password);
+        return ResponseEntity.ok(member);
     }
 }

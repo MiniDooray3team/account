@@ -31,7 +31,7 @@ public class Member {
     @Column(name = "email")
     String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_status_id")
     private MemberStatus memberStatus; // MemberStatus Entity의 관계 부분
 
