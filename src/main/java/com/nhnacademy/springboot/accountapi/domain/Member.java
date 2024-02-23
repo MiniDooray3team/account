@@ -14,10 +14,11 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-// @GeneratedValue(strategy = GenerationType.IDENTITY) // 이걸 추가하라고 함.
+
 public class Member {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(name = "member_id")
@@ -30,8 +31,9 @@ public class Member {
     @Column(name = "email")
     String email;
 
-    @Column(name = "member_status_id")
-    int memberStatusId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_status_id")
+    private MemberStatus memberStatus; // MemberStatus Entity의 관계 부분
 
     @Column(name = "created_at")
     LocalDateTime createdAt;
