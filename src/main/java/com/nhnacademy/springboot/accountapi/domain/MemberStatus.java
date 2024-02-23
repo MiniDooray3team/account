@@ -14,4 +14,8 @@ public class MemberStatus {
 
     @Column(name = "name")
     String name;
+
+    public void setStatusId(int statusId) {
+        this.id = statusId;
+    }
 }
