@@ -27,7 +27,8 @@ public class AccountRestController {
     }
 
     @GetMapping("/members/{id}")
-    public ResponseEntity<Member> getMemberById(@PathVariable("id") Long id) {
+    public ResponseEntity<Member> getMemberById(@PathVariable("id") Long id, HttpServletRequest request) {
+        String memberId = request.getHeader("MEMBER-SERIAL-ID");
         Member member = memberService.getMemberById(id);
         if (member != null) {
             return new ResponseEntity<>(member, HttpStatus.OK);
@@ -37,13 +38,15 @@ public class AccountRestController {
     }
 
     @PostMapping("/members")
-    public ResponseEntity<Member> createMember(@RequestBody Member member) {
+    public ResponseEntity<Member> createMember(@RequestBody Member member, HttpServletRequest request) {
+        String memberId = request.getHeader("MEMBER-SERIAL-ID");
         Member createdMember = memberService.createMember(member);
         return new ResponseEntity<>(createdMember, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/members/{id}")
-    public ResponseEntity<Void> deleteMember(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteMember(@PathVariable("id") Long id, HttpServletRequest request) {
+        String memberId = request.getHeader("MEMBER-SERIAL-ID");
         memberService.deleteMember(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
