@@ -38,7 +38,4 @@ public class Member {
     @Column(name = "created_at")
     LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
-    LocalDateTime updatedAt;
-
 }
