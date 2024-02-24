@@ -58,14 +58,14 @@ public class MemberServiceImpl implements MemberService {
             member.setMemberStatus(memberStatus);
             memberRepository.save(member);
         } else {
-            throw new MemberNotFoundException();
+            throw new MemberNotFoundException("message");
         }
     }
 
     @Override
     public Member findMemberByMemberIdAndPassword(String memberId, String password) {
         log.debug("findMemberByMemberIdAndPassword: memberId={}, password={}", memberId, password);
-        return memberRepository.findByMemberIdAndPassword(memberId, password).orElseThrow(MemberNotFoundException::new);
+        return memberRepository.findByMemberIdAndPassword(memberId, password).orElseThrow();
     }
 }
 
