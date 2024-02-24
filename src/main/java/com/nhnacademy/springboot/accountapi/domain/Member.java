@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@DynamicInsert
 public class Member {
 
     @Id
@@ -31,9 +32,11 @@ public class Member {
     @Column(name = "email")
     String email;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "member_status_id")
-    private MemberStatus memberStatus; // MemberStatus Entity의 관계 부분
+    private MemberStatus memberStatus; // MemberSt
+
+    // atus Entity의 관계 부분
 
     @Column(name = "created_at")
     LocalDateTime createdAt;
