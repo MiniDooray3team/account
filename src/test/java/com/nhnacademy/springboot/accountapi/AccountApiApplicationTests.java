@@ -16,36 +16,36 @@ class AccountApiApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
-    public AccountApiApplicationTests(MockMvc mockMvc) {
-        this.mockMvc = mockMvc;
-    }
-
     @Test
     void testGetAllMembers() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/account/members")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
     void testGetMemberById() throws Exception {
-
+        mockMvc.perform(MockMvcRequestBuilders.get("/account/members/2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    void testGetCreatMember() throws Exception {
-
+    void testCreateMember() throws Exception {
+        String requestBody = "{\"id\":1,\"memberId\":\"test\",\"email\":\"nhnacademy@dooray.com\"}";
+        mockMvc.perform(MockMvcRequestBuilders.post("/account/members")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @Test
-    void testGetDeleteMember() throws Exception {
-
+    void testDeleteMember() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/account/members/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
-
-
-    //    @Test
-//    void contextLoads() {
-//    }
+    // Add more integration tests for other endpoints as needed
 
 }

@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 @Table(name = "member")
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @DynamicInsert
 public class Member {
 

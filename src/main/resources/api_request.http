@@ -12,7 +12,7 @@ Content-Type: application/json
   "id": 1,
   "memberId": "test_user",
   "password": "password123",
-  "email": "test@example.com"
+  "email": "test@nhnacademy.com"
 }
 
 ### 회원 삭제 요청
