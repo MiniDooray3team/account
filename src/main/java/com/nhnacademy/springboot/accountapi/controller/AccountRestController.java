@@ -68,13 +68,14 @@ public class AccountRestController {
         // 멤버 상태 변경
         memberService.updateMemberStatus(memberId,statusId);
         // 상태 변경 성공 했으면 응답
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<Member> loginCheck(@RequestBody LoginRequest loginRequest) {
         String memberId = loginRequest.getMemberId();
         String password = loginRequest.getPassword();
+        log.info("loginCheck: memberId={}, password={}", memberId, password);
         Member member = memberService.findMemberByMemberIdAndPassword(memberId, password);
         return ResponseEntity.ok(member);
     }

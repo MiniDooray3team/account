@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
             Member member = optionalMember.get();
             MemberStatus memberStatus = new MemberStatus();
             memberStatus.setStatusId(statusId);
-            member.setMemberStatus(memberStatus);
+            member.setStatus(memberStatus);
             memberRepository.save(member);
         } else {
             throw new MemberNotFoundException();

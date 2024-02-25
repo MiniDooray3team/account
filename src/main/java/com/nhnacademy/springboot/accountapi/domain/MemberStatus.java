@@ -1,8 +1,11 @@
 package com.nhnacademy.springboot.accountapi.domain;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Table(name = "member_status")
 public class MemberStatus {
 

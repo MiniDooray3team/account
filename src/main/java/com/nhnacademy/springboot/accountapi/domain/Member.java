@@ -34,10 +34,9 @@ public class Member {
 
     @ManyToOne
     @JoinColumn(name = "member_status_id")
-    private MemberStatus memberStatus; // MemberSt
+    private MemberStatus status; // MemberSt
 
     // atus Entity의 관계 부분
-
     @Column(name = "created_at")
     LocalDateTime createdAt;
 
