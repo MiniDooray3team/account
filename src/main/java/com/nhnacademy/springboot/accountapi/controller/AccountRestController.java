@@ -1,7 +1,8 @@
 package com.nhnacademy.springboot.accountapi.controller;
 
 import com.nhnacademy.springboot.accountapi.domain.Member;
-import com.nhnacademy.springboot.accountapi.dto.request.LoginRequest;
+import com.nhnacademy.springboot.accountapi.domain.MemberStatus;
+import com.nhnacademy.springboot.accountapi.dto.LoginRequest;
 import com.nhnacademy.springboot.accountapi.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +59,7 @@ public class AccountRestController {
     @PutMapping("/members/{id}/status")
     public ResponseEntity<Void> updateMemberStatus(
             @PathVariable("id") Long memberId,
-            @RequestParam("statusId") int statusId,
+            @RequestParam("memberStatus") MemberStatus memberStatus,
             HttpServletRequest request) {
         String memberIdFromHeader = request.getHeader(MEMBER_SERIAL_ID);
 
@@ -66,7 +67,7 @@ public class AccountRestController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // header 정보와 다르면 응답 없음 응답 반환 부분
         }
         // 멤버 상태 변경
-        memberService.updateMemberStatus(memberId,statusId);
+        memberService.updateMemberStatus(memberId, memberStatus);
         // 상태 변경 성공 했으면 응답
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

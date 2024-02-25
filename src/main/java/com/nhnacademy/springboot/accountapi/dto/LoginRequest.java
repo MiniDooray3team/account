@@ -1,4 +1,4 @@
-package com.nhnacademy.springboot.accountapi.dto.request;
+package com.nhnacademy.springboot.accountapi.dto;
 
 import lombok.Getter;
 

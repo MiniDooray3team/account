@@ -1,8 +1,6 @@
 package com.nhnacademy.springboot.accountapi.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -18,25 +16,25 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    @Column(name = "member_id")
-    String memberId;
+    private String memberId;
+    private String email;
+    private String password;
 
-    @Column(name = "password")
-    String password;
-
-
-    @Column(name = "email")
-    String email;
-
-    @ManyToOne
-    @JoinColumn(name = "member_status_id")
-    private MemberStatus memberStatus; // MemberSt
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private MemberStatus status;
 
     // atus Entity의 관계 부분
+//    @ManyToOne
+//    @JoinColumn(name = "status_id")
+//    private MemberStatus statusEntity;
 
     @Column(name = "created_at")
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
+    public MemberStatus getMemberStatus() {
+        return status;
+    }
 }

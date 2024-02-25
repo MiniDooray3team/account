@@ -1,51 +1,56 @@
 package com.nhnacademy.springboot.accountapi;
 
+import com.nhnacademy.springboot.accountapi.domain.Member;
+import com.nhnacademy.springboot.accountapi.dto.MemberDto;
+import com.nhnacademy.springboot.accountapi.repository.MemberRepository;
+import com.nhnacademy.springboot.accountapi.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@Transactional
 class AccountApiApplicationTests {
 
     @Autowired
-    private MockMvc mockMvc;
+    private MemberService memberService;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Test
-    void testGetAllMembers() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/account/members")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+    void testMemberLifecycle() {
+        // 새로운 회원 생성
+        MemberDto memberDto = new MemberDto();
+        memberDto.setMemberId("testMember");
+        memberDto.setEmail("test@example.com");
+        memberDto.setPassword("testPassword");
+
+        Member createdMember = memberService.createMember(memberDto);
+        assertNotNull(createdMember.getId());
+
+        // 생성된 회원 조회
+        Member foundMember = memberService.getMemberById(createdMember.getId());
+        assertNotNull(foundMember);
+        assertEquals("testMember", foundMember.getMemberId());
+        assertEquals("test@example.com", foundMember.getEmail());
+
+        // 회원 정보 수정
+        foundMember.setEmail("updated@example.com");
+        memberService.updateMember(foundMember);
+
+        // 수정된 회원 조회
+        Member updatedMember = memberService.getMemberById(foundMember.getId());
+        assertEquals("updated@example.com", updatedMember.getEmail());
+
+        // 회원 삭제
+        memberService.deleteMember(updatedMember.getId());
+
+        // 삭제된 회원 조회
+        Member deletedMember = memberService.getMemberById(updatedMember.getId());
+        assertNull(deletedMember);
     }
-
-    @Test
-    void testGetMemberById() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/account/members/2")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    @Test
-    void testCreateMember() throws Exception {
-        String requestBody = "{\"id\":1,\"memberId\":\"test\",\"email\":\"nhnacademy@dooray.com\"}";
-        mockMvc.perform(MockMvcRequestBuilders.post("/account/members")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
-    }
-
-    @Test
-    void testDeleteMember() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/account/members/1")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
-    }
-
-    // Add more integration tests for other endpoints as needed
-
 }
